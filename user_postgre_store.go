@@ -2,6 +2,7 @@ package tik_lib
 
 import (
 	"database/sql"
+	"github.com/google/uuid"
 	_ "github.com/lib/pq"
 	"log"
 	"strconv"
@@ -46,6 +47,9 @@ func NewPostgreUserStore(cfg PostgresConfig) (UserStore, error) {
 }
 
 func (u *userStore) Create(user *User) (*User, error) {
+	if user.Id == "" {
+		user.Id = uuid.New().String()
+	}
 	result, err := u.db.Exec(
 		"INSERT INTO Users "+
 			"(id, first_name, last_name, username, phone_number, email, password, avatar_url, email_verified, phone_number_verified, type_of_user) "+
@@ -210,4 +214,26 @@ func (u *userStore) List(typeOfUser string) ([]User, error) {
 		users = append(users, user)
 	}
 	return users, nil
+}
+
+func (u *userStore) GetByPhoneNumber(phoneNumber string) (*User, error) {
+	user := &User{}
+	userType := ""
+	err := u.db.QueryRow("select "+
+		"id, first_name, last_name, username, phone_number, email, password, avatar_url, email_verified, phone_number_verified, type_of_user "+
+		"from users where phone_number = $1 limit 1", phoneNumber).
+		Scan(
+			&user.Id, &user.FirstName,
+			&user.LastName, &user.Username,
+			&user.PhoneNumber, &user.Email,
+			&user.Password, &user.AvatarUrl,
+			&user.EmailVerified, &user.PhoneNumberVerified,
+			&userType)
+	if err == sql.ErrNoRows {
+		return nil, ErrUserNotFound
+	} else if err != nil {
+		return nil, err
+	}
+	user.TypeOfUser = ToUserType(userType)
+	return user, nil
 }

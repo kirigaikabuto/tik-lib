@@ -6,4 +6,5 @@ type UserStore interface {
 	Delete(id string) error
 	Get(id string) (*User, error)
 	List(typeOfUser string) ([]User, error)
+	GetByPhoneNumber(phoneNumber string) (*User, error)
 }
