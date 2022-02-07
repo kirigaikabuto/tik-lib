@@ -28,7 +28,7 @@ func NewPostgresFileStore(cfg PostgresConfig) (FileStore, error) {
 	if err != nil {
 		return nil, err
 	}
-	for _, q := range usersQueries {
+	for _, q := range filesQueries {
 		_, err = db.Exec(q)
 		if err != nil {
 			log.Println(err)
