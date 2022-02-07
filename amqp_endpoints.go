@@ -127,3 +127,103 @@ func (a *AmqpEndpoints) GetUserByPhoneNumber() amqp.Handler {
 		return &amqp.Message{Body: jsonData}
 	}
 }
+
+func (a *AmqpEndpoints) CreateFile() amqp.Handler {
+	return func(message amqp.Message) *amqp.Message {
+		cmd := &CreateFileCommand{}
+		err := json.Unmarshal(message.Body, cmd)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		response, err := a.ch.ExecCommand(cmd)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		jsonData, err := json.Marshal(response)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		return &amqp.Message{Body: jsonData}
+	}
+}
+
+func (a *AmqpEndpoints) UpdateFile() amqp.Handler {
+	return func(message amqp.Message) *amqp.Message {
+		cmd := &UpdateFileCommand{}
+		err := json.Unmarshal(message.Body, cmd)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		response, err := a.ch.ExecCommand(cmd)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		jsonData, err := json.Marshal(response)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		return &amqp.Message{Body: jsonData}
+	}
+}
+
+func (a *AmqpEndpoints) GetFileById() amqp.Handler {
+	return func(message amqp.Message) *amqp.Message {
+		cmd := &GetFileByIdCommand{}
+		err := json.Unmarshal(message.Body, cmd)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		response, err := a.ch.ExecCommand(cmd)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		jsonData, err := json.Marshal(response)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		return &amqp.Message{Body: jsonData}
+	}
+}
+
+func (a *AmqpEndpoints) DeleteFile() amqp.Handler {
+	return func(message amqp.Message) *amqp.Message {
+		cmd := &DeleteFileCommand{}
+		err := json.Unmarshal(message.Body, cmd)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		response, err := a.ch.ExecCommand(cmd)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		jsonData, err := json.Marshal(response)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		return &amqp.Message{Body: jsonData}
+	}
+}
+
+func (a *AmqpEndpoints) ListFiles() amqp.Handler {
+	return func(message amqp.Message) *amqp.Message {
+		cmd := &ListFilesCommand{}
+		err := json.Unmarshal(message.Body, cmd)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		response, err := a.ch.ExecCommand(cmd)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		jsonData, err := json.Marshal(response)
+		if err != nil {
+			return setdata_common.ErrToAmqpResponse(err)
+		}
+		return &amqp.Message{Body: jsonData}
+	}
+}
+
+
+
+
+

@@ -47,3 +47,42 @@ type GetUserByPhoneNumberCommand struct {
 func (cmd *GetUserByPhoneNumberCommand) Exec(svc interface{}) (interface{}, error) {
 	return svc.(Service).GetUserByPhoneNumber(cmd)
 }
+
+type CreateFileCommand struct {
+	*File
+}
+
+func (cmd *CreateFileCommand) Exec(svc interface{}) (interface{}, error) {
+	return svc.(Service).CreateFile(cmd)
+}
+
+type UpdateFileCommand struct {
+	*FileUpdate
+}
+
+func (cmd *UpdateFileCommand) Exec(svc interface{}) (interface{}, error) {
+	return svc.(Service).UpdateFile(cmd)
+}
+
+type GetFileByIdCommand struct {
+	Id string `json:"id"`
+}
+
+func (cmd *GetFileByIdCommand) Exec(svc interface{}) (interface{}, error) {
+	return svc.(Service).GetFileById(cmd)
+}
+
+type ListFilesCommand struct {
+}
+
+func (cmd *ListFilesCommand) Exec(svc interface{}) (interface{}, error) {
+	return svc.(Service).ListFiles(cmd)
+}
+
+type DeleteFileCommand struct {
+	Id string `json:"id"`
+}
+
+func (cmd *DeleteFileCommand) Exec(svc interface{}) (interface{}, error) {
+	return nil, svc.(Service).Delete(cmd)
+}
